@@ -1,0 +1,45 @@
+a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}
+
+.scroller {
+  background: linear-gradient(90deg, #ff3131, #942983, #543dd0, #1a82ff);
+  color: white;
+  padding: 0.5rem;
+  position: fixed;
+  top: 0;
+  left: 0; /* Ensures it starts at the left edge */
+  width: 100vw; /* Sets the width to the full viewport width */
+  z-index: 10;
+  font-size: 1.2rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  animation: flash 2s infinite alternate;
+  box-sizing: border-box; /* Ensures padding doesn't cause extra spacing */
+}
+
+.scroller a {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: scroll-left 25s linear infinite;
+  gap: 50px; /* Space between each scrolling item */
+  text-decoration: none;
+  color: inherit;
+}
+
+.scroller p {
+  display: inline-block;
+  margin: 0;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

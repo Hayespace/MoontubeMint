@@ -1,0 +1,124 @@
+.sidebar {
+  background-color: #131316;
+  color: white;
+  padding: 1rem;
+  padding-top: 50px;
+  width: 250px;
+  height: calc(100vh - 110px);
+  position: fixed;
+  top: 110px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-items {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Sidebar Button Styling */
+.sidebar-item a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-weight: bold;
+  text-align: left;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+}
+
+.sidebar-item a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff8395;
+}
+
+.sidebar-item a:active,
+.sidebar-item a:focus,
+.sidebar-item a.active {
+  border: 1.5px solid transparent;
+  border-image-source: linear-gradient(
+    90deg,
+    #ff3131 0%,
+    #942983 22.5%,
+    #543dd0 69.5%,
+    #1a82ff 100%
+  );
+  border-image-slice: 1;
+  outline: none;
+}
+
+.giveaway-btn {
+  background: linear-gradient(90deg, #ff3131, #942983, #543dd0, #1a82ff);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0; /* Removes rounded corners */
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow */
+  animation: flash 2s infinite alternate; /* Flash animation */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+@media (max-width: 930px) {
+  .sidebar {
+    display: none;
+  }
+
+  .footer-sml {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+    align-content: center;
+  }
+}
+
+.social-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 100px;
+  left: 40px;
+  gap: 10px;
+}
+
+.social-container > a {
+  font-size: 28px;
+  color: #ff8395;
+}
+
+.sidebar-item button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-weight: bold;
+  text-align: left;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+}
+
+.sidebar-item button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff8395;
+}

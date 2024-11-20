@@ -1,0 +1,134 @@
+.info-box {
+  background-color: #131316;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1.5px solid transparent;
+  border-image-source: linear-gradient(
+    90deg,
+    #ff3131 0%,
+    #942983 22.5%,
+    #543dd0 69.5%,
+    #1a82ff 100%
+  );
+  border-image-slice: 1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(120, 120, 120, 0.655);
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Hover Effect for Info Box */
+.info-box:hover {
+  background-color: #1f1f1f; /* Slightly darker background on hover */
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.3); /* Brighter shadow on hover */
+  transform: translateY(-5px); /* Slight lift effect */
+  border-image-source: linear-gradient(
+    90deg,
+    #1a82ff 0%,
+    #543dd0 30%,
+    #942983 70%,
+    #ff3131 100%
+  ); /* Reverse gradient */
+}
+
+.monk {
+  justify-content: center;
+  height: 250px;
+  padding-bottom: 10px;
+}
+
+/* Mint Card and Console Appearance */
+.mint-card {
+  max-width: 400px;
+  margin: auto;
+  color: #e0e0e0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.mint-card img {
+  width: 350px;
+}
+
+@media (max-width: 600px) {
+  .mint-card img {
+    width: 100%;
+  }
+}
+
+/* Quantity Selector Styling */
+.mint-card input[type="number"] {
+  width: 60px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1.5px solid #543dd0;
+  background-color: #2b2b2f;
+  color: #e0e0e0;
+  font-size: 1rem;
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* Mint Button Styling */
+.mint-card button {
+  background: linear-gradient(90deg, #ff3131, #942983, #543dd0, #1a82ff);
+  color: #ffffff;
+  font-size: 1.1rem;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.mint-card button:disabled {
+  background: gray !important;
+}
+
+.mint-card button:enabled:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(120, 120, 120, 0.8);
+  cursor: pointer;
+}
+
+/* Minted Status and Status Message */
+.mint-card #mintedStatus {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #543dd0;
+  font-weight: bold;
+}
+
+.mint-card #status {
+  font-size: 0.9rem;
+  color: #ff3131;
+  margin-top: 15px;
+}
+
+.mint-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.mint-controls label {
+  margin-bottom: 8px;
+}
+
+.mint-controls input[type="number"] {
+  margin-bottom: 15px;
+  width: 60px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 24px;
+}
+
+.minted-text {
+  margin-top: 10px;
+  color: rgb(227, 97, 36);
+}
