@@ -1,3 +1,9 @@
 {
-    "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+    "redirects": [
+        {
+            "source": "/(.*)",
+            "destination": "https://moontube.io/",
+            "permanent": true
+        }
+    ]
 }
