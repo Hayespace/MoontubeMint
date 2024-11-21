@@ -2,6 +2,7 @@ import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { FaCaretDown } from "react-icons/fa";
 import ImageLogWord from "../../assets/images/LOG-WORD.png";
 import "./navbar.css";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const { connectors, connect, error } = useConnect();
@@ -23,7 +24,7 @@ export default function Navbar() {
             <a href="https://moontube.io">Home</a>
             <a href="https://moontube.io/about">About</a>
             <a href="https://moontube.io/pioneer">Pioneer Program</a>
-            <a href="https://moontube.io/NFT">Mint</a>
+            <Link to="/">Mint</Link>
             <a href="https://moontube.io/partners">Partners & Tech</a>
           </div>
         </div>
