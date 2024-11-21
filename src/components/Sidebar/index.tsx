@@ -5,22 +5,33 @@ import "./index.css";
 export default function Sidebar() {
   const location = useLocation();
 
+  function openPage(path: string) {
+    window.open(`https://moontube.io/${path}`);
+    return false;
+  }
+
   return (
     <div className="sidebar">
       <ul className="sidebar-items">
         <li className="sidebar-item">
-          <a href="https://moontube.io/comp" target="_blank" className="giveaway-btn">
+          <a href="#" onClick={() => openPage("comp")} className="giveaway-btn">
             $20K Giveaway!
           </a>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/" target="_blank">Home</a>
+          <a href="#" onClick={() => openPage("")}>
+            Home
+          </a>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/about" target="_blank">About</a>
+          <a href="#" onClick={() => openPage("about")}>
+            About
+          </a>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/pioneer" target="_blank">Pioneer Program</a>
+          <a href="#" onClick={() => openPage("pioneer")}>
+            Pioneer Program
+          </a>
         </li>
         <li className="sidebar-item">
           <Link to="/" className={location.pathname == "/" ? "active" : ""}>
@@ -28,7 +39,9 @@ export default function Sidebar() {
           </Link>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/partners" target="_blank">Partners & Tech</a>
+          <a href="#" onClick={() => openPage("partners")}>
+            Partners & Tech
+          </a>
         </li>
         <li className="sidebar-item">
           <button>
