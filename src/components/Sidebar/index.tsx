@@ -14,24 +14,18 @@ export default function Sidebar() {
     <div className="sidebar">
       <ul className="sidebar-items">
         <li className="sidebar-item">
-          <a href="#" onClick={() => openPage("comp")} className="giveaway-btn">
+          <a href="https://moontube.io/comp" className="giveaway-btn">
             $20K Giveaway!
           </a>
         </li>
         <li className="sidebar-item">
-          <a href="#" onClick={() => openPage("")}>
-            Home
-          </a>
+          <a href="https://moontube.io">Home</a>
         </li>
         <li className="sidebar-item">
-          <a href="#" onClick={() => openPage("about")}>
-            About
-          </a>
+          <a href="https://moontube.io/about">About</a>
         </li>
         <li className="sidebar-item">
-          <a href="#" onClick={() => openPage("pioneer")}>
-            Pioneer Program
-          </a>
+          <a href="https://moontube.io/pioneer">Pioneer Program</a>
         </li>
         <li className="sidebar-item">
           <Link to="/" className={location.pathname == "/" ? "active" : ""}>
@@ -39,9 +33,7 @@ export default function Sidebar() {
           </Link>
         </li>
         <li className="sidebar-item">
-          <a href="#" onClick={() => openPage("partners")}>
-            Partners & Tech
-          </a>
+          <a href="https://moontube.io/partners">Partners & Tech</a>
         </li>
         <li className="sidebar-item">
           <button>
