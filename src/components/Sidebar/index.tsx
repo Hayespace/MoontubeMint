@@ -9,18 +9,18 @@ export default function Sidebar() {
     <div className="sidebar">
       <ul className="sidebar-items">
         <li className="sidebar-item">
-          <a href="https://moontube.io/comp" className="giveaway-btn">
+          <Link to="https://moontube.io/comp" className="giveaway-btn">
             $20K Giveaway!
-          </a>
+          </Link>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/">Home</a>
+          <Link to="https://moontube.io/">Home</Link>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/about">About</a>
+          <Link to="https://moontube.io/about">About</Link>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/pioneer">Pioneer Program</a>
+          <Link to="https://moontube.io/pioneer">Pioneer Program</Link>
         </li>
         <li className="sidebar-item">
           <Link to="/" className={location.pathname == "/" ? "active" : ""}>
@@ -28,7 +28,7 @@ export default function Sidebar() {
           </Link>
         </li>
         <li className="sidebar-item">
-          <a href="https://moontube.io/partners">Partners & Tech</a>
+          <Link to="https://moontube.io/partners">Partners & Tech</Link>
         </li>
         <li className="sidebar-item">
           <button>
