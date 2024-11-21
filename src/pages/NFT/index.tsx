@@ -91,7 +91,8 @@ export default function NFT() {
         <div className="error-message">Mint is not allowed!</div>
       ) : (
         <div className="mint-card">
-          <img src={GifMint} alt="Mint Image"></img>
+          <img src={GifMint} alt="Mint Image" />
+          <div className="price">0.15 ETH</div>
           <button disabled={isPending || isLoading} onClick={onMint}>
             {isPending ? "Confirming..." : isLoading ? "Minting..." : "Mint"}
           </button>
