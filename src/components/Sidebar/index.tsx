@@ -5,11 +5,6 @@ import "./index.css";
 export default function Sidebar() {
   const location = useLocation();
 
-  function openPage(path: string) {
-    window.open(`https://moontube.io/${path}`);
-    return false;
-  }
-
   return (
     <div className="sidebar">
       <ul className="sidebar-items">
