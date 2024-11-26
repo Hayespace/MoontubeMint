@@ -85,11 +85,9 @@ export default function NFT() {
           commissions, bulk airdropper fees, swap fees, trending video services,
           KOL trending, project trending, presale promo click throughs,
           Moontuber hire commissions and more.
-
-
-ChatGPT said:
-ChatGPT
-Early minters are already earning valuable airdrops! Follow us on Twitter to see how we’re rewarding our early supporters. Get in early, and these rewards could exceed what you’ve spent.
+          </p>
+          <p>
+        Early minters are already earning valuable airdrops! Follow us on Twitter to see how we’re rewarding our early supporters. Get in early, and these rewards could exceed what you’ve spent.
         </p>
       </div>
       {isMintingOpen == false ? (
