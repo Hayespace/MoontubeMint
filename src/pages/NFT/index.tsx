@@ -76,7 +76,7 @@ export default function NFT() {
 
   return (
     <section>
-      <div class="info-box">
+      <div className="info-box">
     <h1>Mint Your Moontube Profit Share NFTs</h1>
     <p>
         The Moontube Pioneer Program NFT entitles holders to a share of 5% of Moontube’s revenue, distributed among all NFT owners.
