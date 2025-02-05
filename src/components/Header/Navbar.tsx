@@ -20,7 +20,6 @@ export default function Navbar() {
             Menu <FaCaretDown />
           </button>
           <div className="dropdown-content">
-            <a href="https://moontube.io/comp">$20K Giveaway!</a>
             <a href="https://moontube.io">Home</a>
             <a href="https://moontube.io/about">About</a>
             <a href="https://moontube.io/pioneer">Pioneer Program</a>

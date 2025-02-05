@@ -4,8 +4,10 @@ import ImageLogo from "../../assets/images/MoontubeLogoB&W.png";
 function LogoWithText() {
   return (
     <p>
-      WIN $20K IN PRIZES! <img src={ImageLogo} height="20" />
-    </p>
+    <a href="https://onboarding.moontube.io/signup" target="_blank" rel="noopener noreferrer">
+      SIGN UP TODAY! <img src={ImageLogo} height="20" alt="Moontube Logo" />
+    </a>
+  </p>
   );
 }
 export default function Banner() {

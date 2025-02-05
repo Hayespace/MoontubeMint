@@ -9,11 +9,6 @@ export default function Sidebar() {
     <div className="sidebar">
       <ul className="sidebar-items">
         <li className="sidebar-item">
-          <a href="https://moontube.io/comp" className="giveaway-btn">
-            $20K Giveaway!
-          </a>
-        </li>
-        <li className="sidebar-item">
           <a href="https://moontube.io">Home</a>
         </li>
         <li className="sidebar-item">
