@@ -79,23 +79,9 @@ export default function NFT() {
       <div class="info-box">
     <h1>Mint Your Moontube Profit Share NFTs</h1>
     <p>
-        The Moontube Pioneer Program NFT entitles holders to a **share of 5% of Moontube’s total revenue**, distributed among all NFT owners. Revenue sources include:
+        The Moontube Pioneer Program NFT entitles holders to a share of 5% of Moontube’s revenue, distributed among all NFT owners.
     </p>
-    <ul>
-        <li>Trending services</li>
-        <li>Paid banners</li>
-        <li>CEX listing commissions</li>
-        <li>Market maker fees</li>
-        <li>Audit commissions</li>
-        <li>Bulk airdropper fees</li>
-        <li>Swap fees</li>
-        <li>Trending video boosts</li>
-        <li>KOL and project trending</li>
-        <li>Presale promo clicks</li>
-        <li>Moontuber hire commissions & more!</li>
-    </ul>
     <p><strong>Early minters are already earning airdrops!</strong></p>
-    <p>Follow us on <a href="https://twitter.com/moontubeio" target="_blank">Twitter</a> to see how we’re rewarding early supporters.</p>
     <p>And that’s not all—each NFT minted comes with <strong>$200 worth of Moontube tokens</strong> on launch!</p>
 </div>
 
