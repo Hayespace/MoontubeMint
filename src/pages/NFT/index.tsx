@@ -79,7 +79,7 @@ export default function NFT() {
       <div class="info-box">
     <h1>Mint Your Moontube Profit Share NFTs</h1>
     <p>
-        The Moontube Pioneer Program NFT gives you a lifetime <strong>5% revenue share</strong> from Moontube’s biggest revenue streams, including:
+        The Moontube Pioneer Program NFT entitles holders to a **share of 5% of Moontube’s total revenue**, distributed among all NFT owners. Revenue sources include:
     </p>
     <ul>
         <li>Trending services</li>
