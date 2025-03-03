@@ -1,110 +1,131 @@
 import "./index.css";
 import GifMint from "../../assets/images/gif.gif";
 import abi from "../../assets/abis/Moontube.json";
-import {
-  useAccount,
-  useReadContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from "wagmi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
+import { ethers } from "ethers";
+import { Contract } from "ethers";
 
 export default function NFT() {
-  const { address, status } = useAccount();
-  const { isPending, writeContract, error, data: hash } = useWriteContract();
-  const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash });
   const alert = useAlert();
+  const [isMinting, setIsMinting] = useState(false);
+  const [signer, setSigner] = useState<any>(null);
+  const [provider, setProvider] = useState<any>(null);
+  const [contract, setContract] = useState<any>(null);
+  const [data, setData] = useState<any>({
+    currentTokenId: null,
+    balance: null,
+    isMintingOpen: null,
+    price: null,
+    fee: null,
+  });
 
   useEffect(() => {
-    if (isSuccess) {
-      alert.show("Minted Successfully!", { type: "success" });
-    }
-  }, [isSuccess]);
+    const initializeProvider = async () => {
+      if (window.ethereum == null) {
+        setProvider(ethers.getDefaultProvider());
+      } else {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        setProvider(provider);
+      }
+    };
+
+    initializeProvider();
+  }, []);
 
   useEffect(() => {
-    if (error?.message) {
-      alert.show(error?.message, { type: "error" });
-    }
-  }, [error]);
+    const initializeSigner = async () => {
+      setSigner(await provider.getSigner());
+    };
 
-  const { data: currentTokenId }: any = useReadContract({
-    address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-    abi,
-    functionName: "currentTokenId",
-  });
-  const { data: balance }: any = useReadContract({
-    address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-    abi,
-    functionName: "balanceOf",
-    args: [address],
-  });
-  const { data: isMintingOpen } = useReadContract({
-    address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-    abi,
-    functionName: "mintingOpen",
-  });
-  const { data: price }: any = useReadContract({
-    address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-    abi,
-    functionName: "PRICE",
-  });
-  const { data: fee }: any = useReadContract({
-    address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-    abi,
-    functionName: "PROVIDER_FEE",
-  });
-  //   const { data: maxBatchSize }: any = useReadContract({
-  //     address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-  //     abi,
-  //     functionName: "maxBatchSize",
-  //   });
+    if (provider != null) {
+      initializeSigner();
+    }
+  }, [provider]);
+
+  useEffect(() => {
+    if (signer != null) {
+      setContract(
+        new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, signer)
+      );
+    }
+  }, [signer]);
+
+  useEffect(() => {
+    if (contract != null) {
+      readData();
+    }
+  }, [contract]);
+
+  async function readData() {
+    const currentTokenId = await contract.currentTokenId();
+    const balance = await contract.balanceOf(signer.address);
+    const isMintingOpen = await contract.mintingOpen();
+    const price = await contract.PRICE();
+    const fee = await contract.PROVIDER_FEE();
+    setData({
+      currentTokenId,
+      balance: ethers.formatEther(balance),
+      isMintingOpen,
+      price: Number(ethers.formatEther(price)),
+      fee: Number(ethers.formatEther(fee)),
+    });
+  }
 
   async function onMint() {
-    if (status === "connected") {
-      writeContract({
-        address: import.meta.env.VITE_NFT_CONTRACT_ADDR,
-        abi,
-        functionName: "mintToMultiple",
-        args: [address, 1],
-        value: price + fee,
+    setIsMinting(true);
+    try {
+      const tx = await contract.mintToMultiple(signer.address, 1, {
+        value: ethers.parseEther(`${data.price + data.fee}`),
       });
-    } else {
-      alert.show("Wallet is not connected!", { type: "error" });
+      await tx.wait();
+      alert.show("Minted Successfully!", { type: "success" });
+    } catch (error) {
+      alert.show(`${error}`, {
+        type: "error",
+      });
     }
+    setIsMinting(false);
   }
 
   return (
     <section>
       <div className="info-box">
-    <h1>Mint Your Moontube Profit Share NFTs</h1>
-    <p>
-        The Moontube Pioneer Program NFT entitles holders to a share of 5% of Moontube’s revenue, distributed among all NFT owners.
-    </p>
-    <p><strong>Early minters are already earning airdrops!</strong></p>
-    <p>And that’s not all—each NFT minted comes with <strong>$200 worth of Moontube tokens</strong> on launch when you sign up and complete tasks on the platform when it goes live!</p>
-</div>
+        <h1>Mint Your Moontube Profit Share NFTs</h1>
+        <p>
+          The Moontube Pioneer Program NFT entitles holders to a share of 5% of
+          Moontube’s revenue, distributed among all NFT owners.
+        </p>
+        <p>
+          <strong>Early minters are already earning airdrops!</strong>
+        </p>
+        <p>
+          And that’s not all—each NFT minted comes with{" "}
+          <strong>$200 worth of Moontube tokens</strong> on launch when you sign
+          up and complete tasks on the platform when it goes live!
+        </p>
+      </div>
 
-      {isMintingOpen == false ? (
+      {data.isMintingOpen == false ? (
         <div className="error-message">Mint is not allowed!</div>
       ) : (
         <div className="mint-card">
           <img src={GifMint} alt="Mint Image" />
-          <div className="price">0.15 ETH</div>
-          <button disabled={isPending || isLoading} onClick={onMint}>
-            {isPending ? "Confirming..." : isLoading ? "Minting..." : "Mint"}
+          <div className="price">{data.price} ETH</div>
+          <button disabled={isMinting} onClick={onMint}>
+            {isMinting ? "Minting..." : "Mint"}
           </button>
           <div className="minted-text">
             You've minted{" "}
-            {balance == undefined || balance == 0
+            {data.balance == null || data.balance == 0
               ? "0 NFT"
-              : balance == 1
+              : data.balance == 1
                 ? "1 NFT"
-                : `${balance} NFTs`}
+                : `${data.balance} NFTs`}
           </div>
           <div>
-            {currentTokenId == undefined ? 0 : currentTokenId.toString()}/500
-            Minted
+            {data.currentTokenId == null ? 0 : data.currentTokenId.toString()}
+            /500 Minted
           </div>
         </div>
       )}
