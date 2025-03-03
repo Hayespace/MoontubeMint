@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { ethers } from "ethers";
 import { Contract } from "ethers";
+import { useAccount } from "wagmi";
 
 export default function NFT() {
   const alert = useAlert();
+  const account = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const [signer, setSigner] = useState<any>(null);
   const [provider, setProvider] = useState<any>(null);
@@ -23,7 +26,7 @@ export default function NFT() {
   useEffect(() => {
     const initializeProvider = async () => {
       if (window.ethereum == null) {
-        setProvider(ethers.getDefaultProvider());
+        setProvider(ethers.getDefaultProvider("mainnet"));
       } else {
         const provider = new ethers.BrowserProvider(window.ethereum);
         setProvider(provider);
@@ -38,13 +41,20 @@ export default function NFT() {
       setSigner(await provider.getSigner());
     };
 
-    if (provider != null) {
-      initializeSigner();
+    if (account.isConnected) {
+      if (provider != null) {
+        initializeSigner();
+      }
+    } else {
+      setSigner(null);
     }
-  }, [provider]);
+  }, [provider, account]);
 
   useEffect(() => {
-    if (signer != null) {
+    if (signer == null) {
+      alert.show("Wallet is not connected.", { type: "info" });
+    } else {
+      alert.show("Wallet is connected.", { type: "success" });
       setContract(
         new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, signer)
       );
@@ -58,6 +68,7 @@ export default function NFT() {
   }, [contract]);
 
   async function readData() {
+    setIsLoading(true);
     const currentTokenId = await contract.currentTokenId();
     const balance = await contract.balanceOf(signer.address);
     const isMintingOpen = await contract.mintingOpen();
@@ -70,6 +81,7 @@ export default function NFT() {
       price: Number(ethers.formatEther(price)),
       fee: Number(ethers.formatEther(fee)),
     });
+    setIsLoading(false);
   }
 
   async function onMint() {
@@ -106,7 +118,11 @@ export default function NFT() {
         </p>
       </div>
 
-      {data.isMintingOpen == false ? (
+      {signer == null ? (
+        <div className="error-message">Wallet is not connected.</div>
+      ) : isLoading ? (
+        <div className="loading-message">Loading...</div>
+      ) : data.isMintingOpen == false ? (
         <div className="error-message">Mint is not allowed!</div>
       ) : (
         <div className="mint-card">
