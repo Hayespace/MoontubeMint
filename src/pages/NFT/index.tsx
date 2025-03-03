@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { ethers } from "ethers";
 import { Contract } from "ethers";
-import { useAccount } from "wagmi";
+import { Config, useAccount } from "wagmi";
+import { Account, Chain, Client, Transport } from "viem";
+import { getConnectorClient } from "wagmi/actions";
+import { config } from "../../wagmi";
 
 export default function NFT() {
   const alert = useAlert();
@@ -13,7 +16,6 @@ export default function NFT() {
   const [isLoading, setIsLoading] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const [signer, setSigner] = useState<any>(null);
-  const [provider, setProvider] = useState<any>(null);
   const [contract, setContract] = useState<any>(null);
   const [data, setData] = useState<any>({
     currentTokenId: null,
@@ -23,32 +25,32 @@ export default function NFT() {
     fee: null,
   });
 
-  useEffect(() => {
-    const initializeProvider = async () => {
-      if (window.ethereum == null) {
-        setProvider(ethers.getDefaultProvider("mainnet"));
-      } else {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        setProvider(provider);
-      }
+  function clientToSigner(client: Client<Transport, Chain, Account>) {
+    const { account, chain, transport } = client;
+    const network = {
+      chainId: chain.id,
+      name: chain.name,
+      ensAddress: chain.contracts?.ensRegistry?.address,
     };
-
-    initializeProvider();
-  }, []);
+    const provider = new ethers.BrowserProvider(transport, network);
+    setSigner(new ethers.JsonRpcSigner(provider, account.address));
+  }
 
   useEffect(() => {
-    const initializeSigner = async () => {
-      setSigner(await provider.getSigner());
+    const initializeSigner = async (
+      config: Config,
+      { chainId }: { chainId?: number }
+    ) => {
+      const client = await getConnectorClient(config, { chainId });
+      clientToSigner(client);
     };
 
     if (account.isConnected) {
-      if (provider != null) {
-        initializeSigner();
-      }
+      initializeSigner(config, { chainId: 1 });
     } else {
       setSigner(null);
     }
-  }, [provider, account]);
+  }, [account]);
 
   useEffect(() => {
     if (signer == null) {
