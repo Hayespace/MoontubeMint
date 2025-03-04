@@ -69,7 +69,9 @@ export default function NFT() {
 
   async function readData() {
     setIsLoading(true);
+    alert.show(`${account.address}`, { type: "success" });
     const currentTokenId = await contract.currentTokenId();
+    alert.show(`${currentTokenId}`, { type: "success" });
     const balance = await contract.balanceOf(account.address);
     const isMintingOpen = await contract.mintingOpen();
     const price = await contract.PRICE();
