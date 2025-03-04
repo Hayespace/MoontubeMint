@@ -12,56 +12,75 @@ export default function NFT() {
   const account = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
+  const [provider, setProvider] = useState<any>(null);
   const [signer, setSigner] = useState<any>(null);
   const [contract, setContract] = useState<any>(null);
+  const [balance, setBalance] = useState(null);
   const [data, setData] = useState<any>({
     currentTokenId: null,
-    balance: null,
     isMintingOpen: null,
     price: null,
     fee: null,
   });
 
   useEffect(() => {
-    if (account.isConnected && account.address && !account.isReconnecting) {
-      const provider = new ethers.JsonRpcProvider(
-        "https://mainnet.infura.io/v3/0af50f1da48f413da22e9a3de89f57e2"
+    const _provider = new ethers.JsonRpcProvider(
+      "https://mainnet.infura.io/v3/0af50f1da48f413da22e9a3de89f57e2"
+    );
+    setContract(
+      new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, _provider)
+    );
+    setProvider(_provider);
+  }, []);
+
+  async function fetchBalance() {
+    const _balance = await contract.balanceOf(account.address);
+    setBalance(_balance);
+  }
+
+  useEffect(() => {
+    if (
+      account.isConnected &&
+      account.address &&
+      !account.isReconnecting &&
+      provider != null
+    ) {
+      const _signer = new ethers.JsonRpcSigner(provider, account.address);
+      setContract(
+        new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, _signer)
       );
-      const newSigner = new ethers.JsonRpcSigner(provider, account.address);
-      setSigner(newSigner);
+      setSigner(_signer);
     } else {
       setSigner(null);
     }
-  }, [account]);
+  }, [account, provider]);
 
   useEffect(() => {
     if (signer != null) {
-      setContract(
-        new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, signer)
-      );
+      fetchBalance();
     }
   }, [signer]);
 
   useEffect(() => {
     if (contract != null) {
-      readData();
+      fetchContractData();
     }
   }, [contract]);
 
-  async function readData() {
+  async function fetchContractData() {
     setIsLoading(true);
+
     const currentTokenId = await contract.currentTokenId();
-    const balance = await contract.balanceOf(account.address);
     const isMintingOpen = await contract.mintingOpen();
     const price = await contract.PRICE();
     const fee = await contract.PROVIDER_FEE();
     setData({
       currentTokenId,
-      balance: ethers.formatEther(balance),
       isMintingOpen,
       price: Number(ethers.formatEther(price)),
       fee: Number(ethers.formatEther(fee)),
     });
+
     setIsLoading(false);
   }
 
@@ -99,29 +118,49 @@ export default function NFT() {
         </p>
       </div>
 
-      {signer == null ? (
-        <div className="error-message">Wallet is not connected.</div>
-      ) : isLoading ? (
-        <div className="loading-message">Loading...</div>
-      ) : data.isMintingOpen == false ? (
+      {data.isMintingOpen == false ? (
         <div className="error-message">Mint is not allowed!</div>
       ) : (
         <div className="mint-card">
           <img src={GifMint} alt="Mint Image" />
-          <div className="price">{data.price} ETH</div>
-          <button disabled={isMinting} onClick={onMint}>
-            {isMinting ? "Minting..." : "Mint"}
+          <div className="price">
+            {isLoading ? (
+              <span className="loading-text">Loading...</span>
+            ) : (
+              data.price
+            )}{" "}
+            ETH
+          </div>
+          <button
+            disabled={isLoading || isMinting || signer == null}
+            onClick={onMint}
+          >
+            {isLoading
+              ? "Loading..."
+              : signer == null
+                ? "Connect Wallet"
+                : isMinting
+                  ? "Minting..."
+                  : "Mint"}
           </button>
           <div className="minted-text">
             You've minted{" "}
-            {data.balance == null || data.balance == 0
-              ? "0 NFT"
-              : data.balance == 1
-                ? "1 NFT"
-                : `${data.balance} NFTs`}
+            {balance == null
+              ? "-"
+              : balance == 0
+                ? "0 NFT"
+                : balance == 1
+                  ? "1 NFT"
+                  : `${balance} NFTs`}
           </div>
           <div>
-            {data.currentTokenId == null ? 0 : data.currentTokenId.toString()}
+            {isLoading ? (
+              <span className="loading-text">Loading...</span>
+            ) : data.currentTokenId == null ? (
+              0
+            ) : (
+              data.currentTokenId.toString()
+            )}
             /500 Minted
           </div>
         </div>
