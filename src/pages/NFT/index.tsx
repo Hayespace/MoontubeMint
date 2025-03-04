@@ -33,7 +33,8 @@ export default function NFT() {
       ensAddress: chain.contracts?.ensRegistry?.address,
     };
     const provider = new ethers.BrowserProvider(transport, network);
-    setSigner(new ethers.JsonRpcSigner(provider, account.address));
+    const newSigner = new ethers.JsonRpcSigner(provider, account.address);
+    setSigner(newSigner);
   }
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function NFT() {
       clientToSigner(client);
     };
 
-    if (account.isConnected) {
+    if (account.isConnected && account.address && !account.isReconnecting) {
       initializeSigner(config, { chainId: 1 });
     } else {
       setSigner(null);
@@ -53,10 +54,7 @@ export default function NFT() {
   }, [account]);
 
   useEffect(() => {
-    if (signer == null) {
-      alert.show("Wallet is not connected.", { type: "info" });
-    } else {
-      alert.show("Wallet is connected.", { type: "success" });
+    if (signer != null) {
       setContract(
         new Contract(import.meta.env.VITE_NFT_CONTRACT_ADDR, abi, signer)
       );
@@ -72,7 +70,7 @@ export default function NFT() {
   async function readData() {
     setIsLoading(true);
     const currentTokenId = await contract.currentTokenId();
-    const balance = await contract.balanceOf(signer.address);
+    const balance = await contract.balanceOf(account.address);
     const isMintingOpen = await contract.mintingOpen();
     const price = await contract.PRICE();
     const fee = await contract.PROVIDER_FEE();
