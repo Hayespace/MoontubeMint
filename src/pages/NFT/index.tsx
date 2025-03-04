@@ -32,7 +32,15 @@ export default function NFT() {
       name: chain.name,
       ensAddress: chain.contracts?.ensRegistry?.address,
     };
-    const provider = new ethers.BrowserProvider(transport, network);
+    let provider;
+    if (transport.type === "fallback") {
+      const providers = (transport.transports as ReturnType<Transport>[]).map(
+        ({ value }) => new ethers.JsonRpcProvider(value?.url, network)
+      );
+      if (providers.length === 1) return providers[0];
+      provider = new ethers.FallbackProvider(providers);
+    }
+    provider = new ethers.JsonRpcProvider(transport.url, network);
     const newSigner = new ethers.JsonRpcSigner(provider, account.address);
     setSigner(newSigner);
   }
