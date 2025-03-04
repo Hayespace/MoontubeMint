@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { ethers } from "ethers";
 import { Contract } from "ethers";
-import { Config, useAccount } from "wagmi";
-import { Account, Chain, Client, Transport } from "viem";
-import { getConnectorClient } from "wagmi/actions";
-import { config } from "../../wagmi";
+import { useAccount } from "wagmi";
 
 export default function NFT() {
   const alert = useAlert();
@@ -25,37 +22,13 @@ export default function NFT() {
     fee: null,
   });
 
-  function clientToSigner(client: Client<Transport, Chain, Account>) {
-    const { account, chain, transport } = client;
-    const network = {
-      chainId: chain.id,
-      name: chain.name,
-      ensAddress: chain.contracts?.ensRegistry?.address,
-    };
-    let provider;
-    if (transport.type === "fallback") {
-      const providers = (transport.transports as ReturnType<Transport>[]).map(
-        ({ value }) => new ethers.JsonRpcProvider(value?.url, network)
-      );
-      if (providers.length === 1) return providers[0];
-      provider = new ethers.FallbackProvider(providers);
-    }
-    provider = new ethers.JsonRpcProvider(transport.url, network);
-    const newSigner = new ethers.JsonRpcSigner(provider, account.address);
-    setSigner(newSigner);
-  }
-
   useEffect(() => {
-    const initializeSigner = async (
-      config: Config,
-      { chainId }: { chainId?: number }
-    ) => {
-      const client = await getConnectorClient(config, { chainId });
-      clientToSigner(client);
-    };
-
     if (account.isConnected && account.address && !account.isReconnecting) {
-      initializeSigner(config, { chainId: 1 });
+      const provider = new ethers.JsonRpcProvider(
+        "https://mainnet.infura.io/v3/0af50f1da48f413da22e9a3de89f57e2"
+      );
+      const newSigner = new ethers.JsonRpcSigner(provider, account.address);
+      setSigner(newSigner);
     } else {
       setSigner(null);
     }
@@ -77,9 +50,7 @@ export default function NFT() {
 
   async function readData() {
     setIsLoading(true);
-    alert.show(`${account.address}`, { type: "success" });
     const currentTokenId = await contract.currentTokenId();
-    alert.show(`${currentTokenId}`, { type: "success" });
     const balance = await contract.balanceOf(account.address);
     const isMintingOpen = await contract.mintingOpen();
     const price = await contract.PRICE();
