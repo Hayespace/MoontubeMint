@@ -46,6 +46,8 @@ main section {
   border-radius: 20px;
   padding: 20px 30px;
   backdrop-filter: blur(5px);
+  max-width: 300px;
+  overflow: hidden;
 }
 
 .alert-error {
