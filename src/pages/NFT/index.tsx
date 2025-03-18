@@ -93,7 +93,8 @@ export default function NFT() {
       await tx.wait();
       alert.show("Minted Successfully!", { type: "success" });
     } catch (error) {
-      alert.show(`${error}`, {
+      const obj_error = JSON.parse(JSON.stringify(error));
+      alert.show(<><div style={{fontSize: "20px"}}>Error: {obj_error.shortMessage}</div><div>{obj_error.info.error.message}</div></>, {
         type: "error",
       });
     }
