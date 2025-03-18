@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 
 const options = {
   position: positions.TOP_RIGHT,
-  timeout: 5000,
+  timeout: 7000,
   offset: "30px",
   transition: transitions.SCALE,
 };
