@@ -8,7 +8,7 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-        <Sidebar />
+         {/* <Sidebar /> */}
         <main>
           <Routes>
             <Route path="/" element={<NFT />} />

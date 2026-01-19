@@ -17,9 +17,10 @@ body {
   margin: 0;
 }
 
+/* Main layout */
 main {
   padding-top: 200px;
-  padding-left: 350px;
+  padding-left: 50px;
   padding-right: 50px;
   background-color: black;
   display: flex;
@@ -27,12 +28,15 @@ main {
   align-items: center;
 }
 
+/* Mobile / smaller screens */
 @media (max-width: 930px) {
   main {
-    padding-left: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
+/* Content sections */
 main section {
   text-align: center;
   width: 100%;
@@ -41,6 +45,7 @@ main section {
   min-height: calc(100vh - 250px);
 }
 
+/* Alerts */
 .alert-container {
   border: 1px solid white;
   border-radius: 20px;
@@ -55,5 +60,5 @@ main section {
 }
 
 .alert-success {
-  background-color: rgb(42, 150, 60, 0.5);
+  background-color: rgba(42, 150, 60, 0.5);
 }
