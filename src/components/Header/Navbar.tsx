@@ -10,9 +10,19 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        <img src={ImageLogWord} alt="Moontube Logo" className="logo" />
-      </div>
+        <div className="navbar-logo">
+          <a
+            href="https://moontube.io/"
+            target="_self"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={ImageLogWord}
+              alt="Moontube Logo"
+              className="logo"
+            />
+          </a>
+          </div>
 
       <div className="navbar-menu-group">
         {/* WALLET MENU — KEEP THIS */}
