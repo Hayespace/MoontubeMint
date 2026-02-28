@@ -110,9 +110,6 @@ export default function NFT() {
           Moontube’s revenue, distributed among all NFT owners.
         </p>
         <p>
-          <strong>Early minters are already earning airdrops!</strong>
-        </p>
-        <p>
           And that’s not all—each NFT minted comes with{" "}
           <strong>$200 worth of Moontube tokens</strong> on launch when you sign
           up and complete tasks on the platform when it goes live!
